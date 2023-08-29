@@ -1,0 +1,11 @@
+[run]
+source = 
+        proyecto-final
+        test
+
+omit = 
+    env/*
+    *test/*
+    *__init__.py
+
+[report]            

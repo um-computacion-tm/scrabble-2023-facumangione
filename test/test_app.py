@@ -6,3 +6,4 @@ class TestMulti(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main
        
+from proyecto-final.multi import multiplicacion       

@@ -1,5 +1,5 @@
 import unittest
-from board import Board
+from game_board import Board
 
 
 class TestBoard(unittest.TestCase):
@@ -9,7 +9,11 @@ class TestBoard(unittest.TestCase):
             len(board.grid),
             15,
         )
-        
-        
-if __name__ == "__main__":
-    unittest.main()        
+        self.assertEqual(
+            len(board.grid[0]),
+            15,
+        )
+
+
+if __name__ == '__main__':
+    unittest.main()

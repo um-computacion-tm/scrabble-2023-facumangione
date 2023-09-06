@@ -1,6 +1,6 @@
 import unittest
-from game_cell import Cell
-from models import Tile
+from game.game_cell import Cell
+from game.models import Tile
 
 
 class TestCell(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from scrabble import ScrabbleGame
+from game.scrabble import ScrabbleGame
 
 
 class TestScrabbleGame(unittest.TestCase):

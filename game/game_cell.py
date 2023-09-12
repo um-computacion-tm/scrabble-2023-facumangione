@@ -1,12 +1,13 @@
-from models import Tile
+from game.models import Tile 
 
 class Cell:
-    def __init__(self, multiplier, multiplier_type):
+    def __init__(self, multiplier=1, multiplier_type=None, letter=None, active=True):  # Agregamos letter como argumento opcional
         self.multiplier = multiplier
         self.multiplier_type = multiplier_type
-        self.letter = None
+        self.letter = letter  # Establecemos el atributo letter con el valor pasado o None
+        self.active = active
 
-    def add_letter(self, letter:Tile):
+    def add_letter(self, letter: Tile):
         self.letter = letter
 
     def calculate_value(self):

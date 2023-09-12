@@ -2,6 +2,9 @@ import unittest
 from game.scrabble import ScrabbleGame
 
 
+import unittest
+
+    
 class TestScrabbleGame(unittest.TestCase):
     def test_init(self):
         scrabble_game = ScrabbleGame(players_count=3)
@@ -29,7 +32,7 @@ class TestScrabbleGame(unittest.TestCase):
         scrabble_game.next_turn()
 
         assert scrabble_game.current_player == scrabble_game.players[1]
-
+    
     def test_next_turn_when_player_is_last(self):
         #Suponiendo que tenemos 3 jugadores, luego del jugador 3, le toca al jugador 1
         scrabble_game = ScrabbleGame(players_count=3)
@@ -40,5 +43,5 @@ class TestScrabbleGame(unittest.TestCase):
         assert scrabble_game.current_player == scrabble_game.players[0]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -1,11 +1,18 @@
 [run]
-source = 
-        proyecto-final
-        test
-
-omit = 
+source =
+    game
+    test_proyecto
+omit =
     env/*
-    *test/*
-    *__init__.py
-
-[report]            
+    /test
+    */__init__.py
+[report]
+exclude_lines =
+    pragma: no cover
+    def setUp
+    def test_
+    return raw_input
+    print
+    if _name_ == '__main__':
+    def suite
+    _str_         

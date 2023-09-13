@@ -5,6 +5,7 @@ from game.models import Tile
 class Board:
     def __init__(self):
         self.grid = [[ Cell(1, '') for _ in range(15) ]for _ in range(15)]
+        self.is_empty = True
 
     def validate_word_inside_board(self, word, location: tuple, orientation):
         position_x = location[0]
@@ -24,3 +25,6 @@ class Board:
             
     def validate_word_out_of_board(self, word, location, orientation):
         return not self.validate_word_inside_board(word, location, orientation)
+            
+    def validate_board_is_empty(self):
+        assert self.is_empty == True

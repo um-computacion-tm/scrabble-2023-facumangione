@@ -1,4 +1,5 @@
-class Player:
+class PLayer:
     def __init__(self, id:int):
         self.id = id
         self.tiles = None
+        

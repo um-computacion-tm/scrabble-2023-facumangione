@@ -1,26 +1,53 @@
 from game.scrabble import ScrabbleGame
+from io import StringIO
 
-def main():
-    print("Bienvenido!")
-    while True:
-        try: 
-            players_count = int(input("Ingrese cantidad de jugadores: "))
-            if players_count <= 1 or players_count > 4:
-                raise ValueError
-            break
+
+class Main:
+    def __init__(self):
+        print('Bienvenido')
+        self.player_count = self.get_player_count()
+        self.game = ScrabbleGame(self.player_count)
+        self.main_output = StringIO()
+
+    def valid_player_count(self,player_count):
+        try:
+            count = int(player_count)
+            if 2 <= count <= 4:
+                return True
         except ValueError:
-            print("Valor invalido")
-    scrabble_game = ScrabbleGame(players_count=players_count)
-    print("Cantidad de jugadores: ",len(scrabble_game.players))
-    scrabble_game.next_turn()
-    #TODO while playing: loop por turno de jugador hasta que termine el juego
-    print(f"Turno del jugador {scrabble_game.current_player.id}")
-    word = input("Ingrese palabra: ")
-    location_x = input("Ingrese posicion X: ")
-    location_y = input("Ingrese posicion Y: ")
-    location = (location_x, location_y)
-    orientation = input("Ingrese orientacion (V/H)")
-    scrabble_game.validate_word(word, location, orientation)
+            pass
+        return False
+    def get_player_count(self):
+        while True:
+            player_count = input('Cantidad de jugadores: ')
+            if self.valid_player_count(player_count) is True:
+                return int(player_count)
+            print('Valor inválido')
+    
+    def play(self):
+        print(f'La cantidad de jugadores es: {self.player_count}')
+        self.game.next_turn()
+        print(f"Turno del jugador 1")
 
-if __name__ == '__main__':
-    main()
+"""
+def main():
+    print('Bienvenido')
+    while True:
+        try:
+            player_count = int(input('cantidad de jugadores '))
+            if player_count < 2 or player_count > 4:
+                raise ValueError
+            else:
+                break
+        except ValueError:
+            print('Valor invalido')
+    game = Scrabble(player_count)
+    print('La cantidad de jugadores es: ' + str(player_count))
+    game.next_turn()
+    print(f"Turno del jugador 1")
+    word = input('Ingrese palabra: ')
+    location_x = input('Ingrese posición X: ')
+    location_y = input('Ingrese posición Y: ')
+    location = (location_x, location_y)
+    orientation = input('Ingrese orientación (V/H): ')
+    game.validate_word"""

@@ -1,5 +1,5 @@
 import unittest
-from game.game_calcute import Calculate_word_value
+from game.game_calculate import Calculate_word_value
 from game.game_cell import Cell
 from game.models import Tile
 
@@ -9,32 +9,32 @@ import unittest  # Agrega esta línea para importar unittest
 class TestsCalculateWordValue(unittest.TestCase):
     def test_simple(self):
         word = [
-            Cell(multiplier=1, multiplier_type='letter'),
-            Cell(multiplier=1, multiplier_type='letter'),
-            Cell(multiplier=1, multiplier_type='letter'),
-            Cell(multiplier=1, multiplier_type='letter'),
+            Cell(multiplier=1, multiplier_type='letter',value=1),
+            Cell(multiplier=1, multiplier_type='letter',value=1),
+            Cell(multiplier=1, multiplier_type='letter',value=1),
+            Cell(multiplier=1, multiplier_type='letter',value=1),
         ]
         
         letters = ["C", "A", "S", "A"]
         for i, cell in enumerate(word):
             cell.add_letter(Tile(letter=letters[i], value=1))
 
-        value = Calculate_word_value.calculate(word)
+        value = Calculate_word_value.calculate_word_value(word)
         self.assertEqual(value, 4)  
 
 
     def test_with_letter_multiplier(self):
         word = [
-            Cell(multiplier=1, multiplier_type='letter'),
-            Cell(multiplier=1, multiplier_type='letter'),
-            Cell(multiplier=2, multiplier_type='letter'),  # Usar multiplier y multiplier_type en lugar de letter y value
-            Cell(multiplier=1, multiplier_type='letter'),
+            Cell(multiplier=1, multiplier_type='letter',value=1),
+            Cell(multiplier=1, multiplier_type='letter',value=1),
+            Cell(multiplier=2, multiplier_type='letter',value=1),  # Usar multiplier y multiplier_type en lugar de letter y value
+            Cell(multiplier=1, multiplier_type='letter',value=1),
         ]
         letters = ["C", "A", "S", "A"]
         for i, cell in enumerate(word):
             cell.add_letter(Tile(letter=letters[i], value=1))
 
-        value = Calculate_word_value.calculate(word)
+        value = Calculate_word_value.calculate_word_value(word)
         self.assertEqual(value, 5)
 
     def test_with_word_multiplier(self):
@@ -48,7 +48,7 @@ class TestsCalculateWordValue(unittest.TestCase):
         for i, cell in enumerate(word):
             cell.add_letter(Tile(letter=letters[i], value=1))
 
-        value = Calculate_word_value.calculate(word)
+        value = Calculate_word_value.calculate_word_value(word)
         self.assertEqual(value, 8)
 
 
@@ -59,7 +59,7 @@ class TestsCalculateWordValue(unittest.TestCase):
             Cell(letter=Tile("S", 2), multiplier=2, multiplier_type="word"),
             Cell(letter=Tile("A", 1)),
         ]
-        value = Calculate_word_value.calculate(word)
+        value = Calculate_word_value.calculate_word_value(word)
         self.assertEqual(value, 10)
 
     def test_with_letter_word_multiplier(self):
@@ -69,7 +69,7 @@ class TestsCalculateWordValue(unittest.TestCase):
             Cell(letter=Tile("S", 2), multiplier=2, multiplier_type="word"),
             Cell(letter=Tile("A", 1)),
         ]
-        value = Calculate_word_value.calculate(word)
+        value = Calculate_word_value.calculate_word_value(word)
         self.assertEqual(value, 14)
 
         
@@ -82,8 +82,8 @@ class TestsCalculateWordValue(unittest.TestCase):
         ]
         for index in range(4):
             word[index].active = False
-        value = Calculate_word_value.calculate(word)
-        self.assertEqual(value, 14)
+        value = Calculate_word_value.calculate_word_value(word)
+        self.assertEqual(value, 7)
 
     def test_with_letter_word_multiplier_no_active(self):
         word = [
@@ -92,7 +92,7 @@ class TestsCalculateWordValue(unittest.TestCase):
             Cell(letter=Tile("S", 2), multiplier=2, multiplier_type="word"),
             Cell(letter=Tile("A", 1)),
         ]
-        value = Calculate_word_value.calculate(word)
+        value = Calculate_word_value.calculate_word_value(word)
         self.assertEqual(value, 14)
 
 

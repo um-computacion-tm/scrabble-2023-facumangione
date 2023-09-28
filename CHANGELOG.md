@@ -5,6 +5,18 @@ by Mangione Facundo
 
 ## [Unreleased]
 
+## [0.0.12] - 2023 - 09 - 28
+
+### Added
+
+Add code in game_player
+
+## [0.0.11] - 2023 - 09 - 27
+
+### Added
+
+New test in test_player
+
 ## [0.0.10] - 2023 - 09 - 26
 
 ### Added

@@ -16,7 +16,10 @@ class Player:
         return all(word.count(letter) <= rack_letters.count(letter) for letter in set(word))
 
     def pass_turn(self):
-        pass
+        self.has_passed = True  # Marcar que el jugador ha pasado su turno
+
+    def has_turn(self):
+        return not self.has_passed  # Verificar si el jugador tiene un turno activo
 
     def has_letters(self, tiles_to_check, bag_tile):
     # Tomar 7 fichas del "rack" (bag_tile)

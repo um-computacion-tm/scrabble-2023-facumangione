@@ -14,6 +14,8 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(player_1.id,1)
         self.assertEqual(player_2.id,2)
         self.assertEqual(player_3.id,3)
+        self.bag_tile = BagTiles() 
+        self.player = Player(1)
 
     def setUp(self):
         self.player = Player(1)
@@ -84,6 +86,42 @@ class TestPlayer(unittest.TestCase):
         is_valid = player.has_letters(tiles_to_check, bag_tile)  # Pasar bag_tile también
 
         self.assertEqual(is_valid, False)
+
+    def test_directory_word_in_spanish(self):
+        bag_tile = BagTiles()
+        bag_tile.tiles = [
+            Tile(letter='P', value=1),
+            Tile(letter='O', value=1),
+            Tile(letter='E', value=1),
+            Tile(letter='A', value=1),
+            Tile(letter='R', value=1),
+            Tile(letter='U', value=1),
+            Tile(letter='M', value=1),
+    ]
+
+        player = Player(bag_tile)
+        tiles_to_check = [
+            
+            #[https://dle.rae.es/]
+
+        ]
+
+    def test_pass_turn(self):
+        # Agrega algunas fichas al rack del jugador para el test
+        self.player.tiles = [Tile('A',1), Tile('B',1), Tile('C',1)]
+
+        # Verifica que el rack del jugador contenga fichas antes de pasar el turno
+        self.assertNotEqual(len(self.player.tiles), 0)
+
+        # Llama a la función pass_turn para pasar el turno
+        self.player.pass_turn()
+
+        # Verifica que el rack del jugador esté vacío después de pasar el turno
+        self.assertEqual(len(self.player.tiles), 0)
+
+        #completar más
+
+
 
 if __name__ == '__main__':
     unittest.main()

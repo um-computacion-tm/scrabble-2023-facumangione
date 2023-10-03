@@ -1,3 +1,5 @@
+from game.models import BagTiles
+
 class Player:
     def __init__(self, id:int):
         self.id = id
@@ -15,11 +17,6 @@ class Player:
         rack_letters = [tile.letter for tile in self.tiles]
         return all(word.count(letter) <= rack_letters.count(letter) for letter in set(word))
 
-    def pass_turn(self):
-        self.has_passed = True  # Marcar que el jugador ha pasado su turno
-
-    def has_turn(self):
-        return not self.has_passed  # Verificar si el jugador tiene un turno activo
 
     def has_letters(self, tiles_to_check, bag_tile):
     # Tomar 7 fichas del "rack" (bag_tile)
@@ -29,8 +26,8 @@ class Player:
     # Comprobar si todas las letras requeridas están en el "rack"
         return all(rack_letters.count(tile.letter) >= tiles_to_check.count(tile) for tile in tiles_to_check)
 
-        
-    #class Dictionary:
-        #def IsItDictionary(word, str):
-            #usar diccionario, test que llame a un servicio, o mejor, funcion que llame a un servicio externo, en este caso la RAE
-    #caso de test: bien, mal, error por conexión
+    def pass_turn(self, bag_tile= BagTiles()):
+        # Devuelve las fichas utilizadas al BagTiles
+        bag_tile.return_tiles(self.tiles)
+        # Limpia el rack del jugador
+        self.tiles = []

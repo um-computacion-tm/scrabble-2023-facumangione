@@ -117,10 +117,16 @@ class BagTiles:
         random.shuffle(self.tiles)
 
     def take(self, count):
-        tiles = []
-        for _ in range(count):
-            tiles.append(self.tiles.pop())
-        return tiles
+        if count <= len(self.tiles):
+            taken_tiles = self.tiles[:count]
+            self.tiles = self.tiles[count:]
+            return taken_tiles
+        else:
+            return []
 
     def put(self, tiles):
         self.tiles.extend(tiles)
+
+    def return_tiles(self, returned_tiles):
+        # Agrega las fichas devueltas al BagTiles
+        self.tiles.extend(returned_tiles)

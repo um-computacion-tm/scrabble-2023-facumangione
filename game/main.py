@@ -31,23 +31,31 @@ class Main:
 
 """
 def main():
-    print('Bienvenido')
+    print('Bienvenido') 
+    
     while True:
         try:
-            player_count = int(input('cantidad de jugadores '))
+            player_count = int(input('Cantidad de jugadores (2-4): ')) 
             if player_count < 2 or player_count > 4:
-                raise ValueError
+                raise ValueError 
             else:
-                break
+                break 
         except ValueError:
-            print('Valor invalido')
+            print('Valor inválido')
+
     game = Scrabble(player_count)
-    print('La cantidad de jugadores es: ' + str(player_count))
-    game.next_turn()
-    print(f"Turno del jugador 1")
-    word = input('Ingrese palabra: ')
-    location_x = input('Ingrese posición X: ')
-    location_y = input('Ingrese posición Y: ')
-    location = (location_x, location_y)
-    orientation = input('Ingrese orientación (V/H): ')
-    game.validate_word"""
+    print(f'La cantidad de jugadores es: {player_count}')
+    
+    for player_number in range(1, player_count + 1):
+        print(f"Turno del jugador {player_number}")
+        word = input('Ingrese palabra: ')
+        location_x = input('Ingrese posición X: ')
+        location_y = input('Ingrese posición Y: ')
+        location = (location_x, location_y)
+        orientation = input('Ingrese orientación (V/H): ')
+
+        # Debo llamar al método que valida la palabra y realiza las acciones del juego:
+
+        game.play_word(player_number, word, location, orientation)
+
+        # Luego, continuo con el siguiente jugador en el bucle."""

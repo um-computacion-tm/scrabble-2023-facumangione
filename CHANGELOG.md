@@ -5,6 +5,12 @@ by Mangione Facundo
 
 ## [Unreleased]
 
+## [0.0.16] - 2023 - 10 - 4
+
+### Added
+
+test pygame for a bord
+
 ## [0.0.16] - 2023 - 10 - 3
 
 ### Added 

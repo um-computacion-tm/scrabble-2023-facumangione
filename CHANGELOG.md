@@ -5,6 +5,31 @@ by Mangione Facundo
 
 ## [Unreleased]
 
+## [0.0.16] - 2023 - 10 - 3
+
+### Added 
+
+Trying different desing of board
+change in test pass_turn
+
+## [0.0.15] - 2023 - 10 - 2
+
+### Added
+
+Changes in main
+
+## [0.0.14] - 2023 - 10 - 1
+
+### Added
+
+Add test pass_turn
+
+## [0.0.13] - 2023 - 09 - 30
+
+### Added
+
+Add code pass_turn
+
 ## [0.0.12] - 2023 - 09 - 28
 
 ### Added

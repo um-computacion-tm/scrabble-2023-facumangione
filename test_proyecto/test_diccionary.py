@@ -1,22 +1,27 @@
 import unittest
+from game.dictionary import Dictionary
 
-from game.dictionary import validate_word
-
-class TestDictionary(unittest.TestCase): 
-
-    def test_verificar_palabra_existente():
-    # Prueba para una palabra que debería existir
-        assert validate_word("perro") == True
-
-    def test_verificar_palabra_inexistente():
-    # Prueba para una palabra que no debería existir
-        assert validate_word("xyzabc") == False
-
-    def test_verificar_palabra_vacia():
-    # Prueba para una palabra vacía
-        assert validate_word("") == False
-
-
+class TestDictionary(unittest.TestCase):
+    def test_remove_accents(self):
+        dic = Dictionary()
+        word = "Imaginación"
+        self.assertEqual(dic.remove_accents(word), "Imaginacion")
+    def test_simple_verify(self):
+        dic = Dictionary()
+        word = "Hola"
+        self.assertEqual(dic.verify_word(word), True)
+    def test_verify_false_word(self):
+        dic = Dictionary()
+        word = "Kadabra"
+        self.assertEqual(dic.verify_word(word), False)
+    def test_verify_word_with_accents(self):
+        dic = Dictionary()
+        word = "Imaginación"
+        self.assertEqual(dic.verify_word(word), True)
+    def test_verify_word_with_dieresis(self):
+        dic = Dictionary()
+        word = "Pingüino"
+        self.assertEqual(dic.verify_word(word), True)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,8 +1,10 @@
 from game.scrabble import ScrabbleGame
 from io import StringIO
+from game.get_player_count import show_board, show_player, get_player_count, get_inputs
 
 
 class Main:
+    
     def __init__(self):
         print('Bienvenido')
         self.player_count = self.get_player_count()
@@ -29,33 +31,23 @@ class Main:
         self.game.next_turn()
         print(f"Turno del jugador 1")
 
-"""
+#INICIAR JUEGO
+
 def main():
+
+    player_count = get_player_count()
+    game = ScrabbleGame(player_count)
+    while game.is_playing():
+        show_board(game.get_board())
+        show_player(*game.get_current_player())
+        word, coords, orientation = get_inputs()
+        try:
+            game.play(word, coords, orientation)
+        except Exception as e:
+            print(e)
+    
     print('Bienvenido') 
     
-    while True:
-        try:
-            player_count = int(input('Cantidad de jugadores (2-4): ')) 
-            if player_count < 2 or player_count > 4:
-                raise ValueError 
-            else:
-                break 
-        except ValueError:
-            print('Valor inválido')
-
-    game = Scrabble(player_count)
-    print(f'La cantidad de jugadores es: {player_count}')
     
-    for player_number in range(1, player_count + 1):
-        print(f"Turno del jugador {player_number}")
-        word = input('Ingrese palabra: ')
-        location_x = input('Ingrese posición X: ')
-        location_y = input('Ingrese posición Y: ')
-        location = (location_x, location_y)
-        orientation = input('Ingrese orientación (V/H): ')
-
-        # Debo llamar al método que valida la palabra y realiza las acciones del juego:
-
-        game.play_word(player_number, word, location, orientation)
-
-        # Luego, continuo con el siguiente jugador en el bucle."""
+if __name__ == '__main__':
+    main()

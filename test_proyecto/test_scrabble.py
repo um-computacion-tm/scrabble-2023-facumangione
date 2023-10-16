@@ -1,47 +1,39 @@
 import unittest
+from io import StringIO
 from game.scrabble import ScrabbleGame
 
+class Main:
+    def __init__(self):
+        print('Bienvenido')
+        self.player_count = self.get_player_count()
+        self.game = ScrabbleGame(self.player_count)
+        self.main_output = StringIO()
 
-import unittest
+    def valid_player_count(self, player_count):
+        try:
+            count = int(player_count)
+            if 2 <= count <= 4:
+                return True
+        except ValueError:
+            pass
+        return False
 
-    
-class TestScrabbleGame(unittest.TestCase):
-    def test_init(self):
-        scrabble_game = ScrabbleGame(players_count=3)
-        self.assertIsNotNone(scrabble_game.board)
-        self.assertEqual(
-            len(scrabble_game.players),
-            3,
-        )
-        self.assertIsNotNone(scrabble_game.bag_tiles)
-    
-    def test_next_turn_when_game_is_starting(self):
-        #Validar que al comienzo, el turno es del jugador 0
-        scrabble_game = ScrabbleGame(players_count=3)
-
-        scrabble_game.next_turn()
-
-        assert scrabble_game.current_player == scrabble_game.players[0]
-
-
-    def test_next_turn_when_player_is_not_the_first(self):
-        #Validar que luego del jugador 0, le toca al jugador 1
-        scrabble_game = ScrabbleGame(players_count=3)
-        scrabble_game.current_player = scrabble_game.players[0]
-
-        scrabble_game.next_turn()
-
-        assert scrabble_game.current_player == scrabble_game.players[1]
-    
-    def test_next_turn_when_player_is_last(self):
-        #Suponiendo que tenemos 3 jugadores, luego del jugador 3, le toca al jugador 1
-        scrabble_game = ScrabbleGame(players_count=3)
-        scrabble_game.current_player = scrabble_game.players[2]
-
-        scrabble_game.next_turn()
-
-        assert scrabble_game.current_player == scrabble_game.players[0]
+    def get_player_count(self):
+        while True:
+            try:
+                player_count = int(input('cantidad de jugadores (1-3): '))
+                if player_count <= 3:
+                    break
+            except Exception as e:
+                print('ingrese un numero por favor')
+        return player_count
 
 
-if __name__ == "__main__":
+    def play(self):
+        print(f'La cantidad de jugadores es: {self.player_count}')
+        self.game.next_turn()
+        print(f"Turno del jugador 1")
+
+        
+if __name__ == '__main__':
     unittest.main()

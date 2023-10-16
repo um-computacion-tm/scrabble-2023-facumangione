@@ -1,17 +1,14 @@
-from game.scrabble import ScrabbleGame
 from io import StringIO
-from game.get_player_count import show_board, show_player, get_player_count, get_inputs
-
+from game.scrabble import ScrabbleGame
 
 class Main:
-    
     def __init__(self):
-        print('Bienvenido')
+        print('¡Bienvenido a Scrabble!')
         self.player_count = self.get_player_count()
         self.game = ScrabbleGame(self.player_count)
         self.main_output = StringIO()
 
-    def valid_player_count(self,player_count):
+    def valid_player_count(self, player_count):
         try:
             count = int(player_count)
             if 2 <= count <= 4:
@@ -19,35 +16,53 @@ class Main:
         except ValueError:
             pass
         return False
-    def get_player_count(self):
-        while True:
-            player_count = input('Cantidad de jugadores: ')
-            if self.valid_player_count(player_count) is True:
-                return int(player_count)
-            print('Valor inválido')
     
+
     def play(self):
         print(f'La cantidad de jugadores es: {self.player_count}')
-        self.game.next_turn()
-        print(f"Turno del jugador 1")
+        self.game.start_game()
+        while self.game.is_playing():
+            self.show_board()
+            self.show_current_player()
+            word = input('Ingrese palabra (o "PASAR" para saltar el turno): ')
+            if word.lower() == "pasar":
+                self.game.pass_turn()
+            else:
+                location_x = int(input('Ingrese posición X: '))
+                location_y = int(input('Ingrese posición Y: '))
+                orientation = input('Ingrese orientación (V/H): ')
+                try:
+                    self.game.play(word, (location_x, location_y), orientation)
+                except Exception as e:
+                    print(e)
+            self.show_scores()
 
-#INICIAR JUEGO
+    def show_board(self):
+        board = self.game.get_board()
+        for row in board:
+            print(' '.join([cell.letter for cell in row]))
+        print()
 
-def main():
+    def show_current_player(self):
+        current_player = self.game.get_current_player()
+        print(f"Turno del jugador {current_player.id}")
 
-    player_count = get_player_count()
-    game = ScrabbleGame(player_count)
-    while game.is_playing():
-        show_board(game.get_board())
-        show_player(*game.get_current_player())
-        word, coords, orientation = get_inputs()
-        try:
-            game.play(word, coords, orientation)
-        except Exception as e:
-            print(e)
-    
-    print('Bienvenido') 
-    
-    
+    def show_scores(self):
+        players = self.game.get_players()
+        for player in players:
+            print(f"Jugador {player.id}: Puntos = {player.score}")
+        print()
+
+    def show_board(self):
+        board = self.game.get_board()
+
+    def show_current_player(self):
+        current_player = self.game.get_current_player()
+
+    def main():
+        game = ScrabbleGame()
+        game.play()
+
 if __name__ == '__main__':
-    main()
+    main = Main()
+    main.play()

@@ -5,10 +5,8 @@ class Player:
         self.id = id
         self.tiles = None
         self.board = None
-
-    @property
-    def rack(self):
-        return self.tiles
+        self.score = 0
+        self.rack = []
 
     def get_score(self):
         return sum(cell.calculate_value() for cell in self.board.played_cells)

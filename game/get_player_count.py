@@ -28,12 +28,3 @@ def player_number(): #lleva un seguimiento del turno del jugador actual
         ScrabbleGame.validate_word(player_number, word, location, orientation)
 
         # Luego, continuo con el siguiente jugador en el bucle."""
-        
-def show_board():
-    pass
-
-def show_player():
-    pass        
-
-def get_inputs():
-    pass

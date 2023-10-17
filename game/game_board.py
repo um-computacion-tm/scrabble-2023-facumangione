@@ -8,6 +8,11 @@ class Board:
         self.is_empty = True
         self.word_is_valid = True
         
+    def display(self):
+        for row in self.grid:
+            for cell in row:
+                print(cell.letter or '.', end=' ')
+            print()
 
     def validate_word_inside_board(self, word, location: tuple, orientation):
         position_x = location[0]
@@ -42,3 +47,21 @@ class Board:
             col += 1
         
         return True
+
+    def put_words(self, word, location, orientation):
+        x, y = location
+        words = []  # Lista para almacenar las celdas actualizadas
+        if orientation == 'H':
+            for letter in word:
+                cell = self.grid[x][y]
+                cell.add_letter(letter)
+                words.append(cell)  # Agrega la celda actualizada a la lista
+                y += 1
+        elif orientation == 'V':
+            for letter in word:
+                cell = self.grid[x][y]
+                cell.add_letter(letter)
+                words.append(cell)  # Agrega la celda actualizada a la lista
+                x += 1
+
+        return words  # Devuelve la lista de celdas actualizadas

@@ -4,7 +4,7 @@ from game.game_cell import Cell
 
 class Calculate_word_value:
     @staticmethod
-    def calculate_word_value(word: list[Cell]) -> int:
+    def calculate_word_value(word: List[Cell]) -> int:
         value: int = 0
         multiplier_word = None
         for cell in word:

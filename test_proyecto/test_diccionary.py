@@ -1,4 +1,5 @@
 import unittest
+
 from game.dictionary import Dictionary
 
 class TestDictionary(unittest.TestCase):

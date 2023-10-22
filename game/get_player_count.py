@@ -1,30 +1,39 @@
 from game.scrabble import ScrabbleGame
 
-def get_player_count():
+class GetPlayerCount:
+
+    def __init__(self):
+        self.player_count = 0
+
+    def get_player_count(self):
         while True:
             try:
-                player_count = int(input('cantidad de jugadores (1-3): '))
-                if player_count <= 3:
+                self.player_count = int(input('Ingrese la cantidad de jugadores (1-4): '))
+                if 1 <= self.player_count <= 4:
                     break
-            except Exception as e:
-                print('ingrese un numero por favor')
+                else:
+                    print('Por favor, ingrese un número entre 1 y 4.')
+            except ValueError:
+                print('Por favor, ingrese un número válido.')
 
-        return player_count
+    def player_number(self):
+        game = ScrabbleGame(self.player_count)  # Crea una instancia de ScrabbleGame
+        for player_number in range(1, self.player_count + 1):
+            print(f"Turno del jugador {player_number}")
+            word = input('Ingrese palabra (o "PASAR" para saltar el turno): ')
+            if word.lower() == "pasar":
+                game.pass_turn()
+            else:
+                location_x = int(input('Ingrese posición X: '))
+                location_y = int(input('Ingrese posición Y: '))
+                orientation = input('Ingrese orientación (V/H): ')
+                try:
+                    game.play(word, (location_x, location_y), orientation)
+                except Exception as e:
+                    print(e)
+        game.show_scores()  # Muestra los puntajes al final del juego
 
-
-
-def player_number(): #lleva un seguimiento del turno del jugador actual
-
-    for player_number in range(1, ScrabbleGame.add_player + 1):
-        print(f"Turno del jugador {player_number}")
-        word = input('Ingrese palabra: ')
-        location_x = input('Ingrese posición X: ')
-        location_y = input('Ingrese posición Y: ')
-        location = (location_x, location_y)
-        orientation = input('Ingrese orientación (V/H): ')
-
-        # Debo llamar al método que valida la palabra y realiza las acciones del juego:
-
-        ScrabbleGame.validate_word(player_number, word, location, orientation)
-
-        # Luego, continuo con el siguiente jugador en el bucle."""
+if __name__ == "__main__":
+    game = GetPlayerCount()
+    game.get_player_count()
+    game.player_number()

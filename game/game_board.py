@@ -1,73 +1,120 @@
-from game.game_cell import Cell
 from game.models import Tile
+from game.game_cell import Cell
 
 class Board:
+    
     def __init__(self):
-        self.grid = [[Cell(1, '') for _ in range(15)] for _ in range(15)]
-        self.is_empty = True
-        self.word_is_valid = True
+        self.grid = [[Cell() for _ in range(15)] for _ in range(15)]  # Representa el tablero como una matriz de celdas
+        self.initialize_board_multipliers()  # Inicializa los multiplicadores del tablero
 
     def __iter__(self):
-        for row in self.grid:
-            yield row
+        return iter(self.grid)
 
-    def display(self):
+    def initialize_board_multipliers(self):
+        # Establece los multiplicadores de palabras (DP y TP)
+        word_multipliers = [
+            (0, 0), (0, 7), (0, 14),
+            (7, 0), (7, 14),
+            (14, 0), (14, 7), (14, 14)
+        ]
+
+        for position in word_multipliers:
+            x, y = position
+            self.grid[x][y].multiplier_type = 'word'
+            self.grid[x][y].multiplier = 2 if (x, y) != (7, 7) else 3  # Casilla central es TP, el resto son DP
+
+        # Establece los multiplicadores de letras (DL y TL)
+        letter_multipliers = [
+            (1, 1), (1, 13),
+            (2, 2), (2, 12),
+            (3, 3), (3, 11),
+            (4, 4), (4, 10),
+            (13, 1), (13, 13),
+            (12, 2), (12, 12),
+            (11, 3), (11, 11),
+            (10, 4), (10, 10)
+        ]
+
+        for position in letter_multipliers:
+            x, y = position
+            self.grid[x][y].multiplier_type = 'letter'
+            self.grid[x][y].multiplier = 2 if (x, y) != (7, 7) else 3  # Casilla central es TL, el resto son DL
+
+
+    def validate_word_inside_board(self, word, location, orientation):
+        position_x, position_y = location  #<--Cambiar nombre de variable para que sea mas facil de entender
+        word_length = len(word)
+
+        if orientation == "H":
+            if position_y + word_length <= 15:
+                return True
+        elif orientation == "V":
+            if position_x + word_length <= 15:
+                return True
+
+        return False
+
+    @property
+    def is_empty(self):
+        # Verificar si el tablero está completamente vacío
         for row in self.grid:
             for cell in row:
-                print(cell.letter or '.', end=' ')
-            print()
-
-    def validate_word_inside_board(self, word, location: tuple, orientation):
-        position_x = location[0]
-        position_y = location[1]
-        len_word = len(word)
-        orientation = orientation.upper()
-        if orientation == "H":
-            if position_x + len_word > 15:
-                return False
-            elif position_y >= 15:
-                return False
-        elif orientation == "V":
-            if position_y + len_word > 15:
-                return False
-            elif position_x >= 15:
-                return False
+                if not cell.is_empty():
+                    return False
         return True
-
-    def add_letter(self, x, y, letter):
-        self.grid[x][y].add_letter(letter)
-        # Después de agregar una letra, el tablero ya no está vacío
-        self.is_empty = False
-
-    def validate_word_out_of_board(self, word, location, orientation):
-        return not self.validate_word_inside_board(word, location, orientation)
 
     def validate_word_place_board(self, word, location, orientation):
-        row, col = location
-        for letter in word:
+        position_x, position_y = location
+        word_length = len(word)
+
+        if not self.validate_word_inside_board(word, location, orientation):
+            return False
+
+        for i in range(word_length):
             if orientation == "H":
-                if self.grid[row][col].letter != ' ' and self.grid[row][col].letter != letter:
-                    return False
-                col += 1
+                current_tile = self.grid[position_x + i][position_y]
             elif orientation == "V":
-                if self.grid[row][col].letter != ' ' and self.grid[row][col].letter != letter:
-                    return False
-                row += 1
+                current_tile = self.grid[position_x][position_y + i]
+
+            if current_tile.letter is not None:
+                return False
+
         return True
 
-    def put_words(self, word, location, orientation):
-        x, y = location
-        words = []  # Lista para almacenar las celdas actualizadas
-        if orientation == 'H':
-            for letter in word:
-                cell = self.grid[x][y]
-                cell.add_letter(letter)
-                words.append(cell)  # Agrega la celda actualizada a la lista
-                y += 1
-        elif orientation == 'V':
-            for letter in word:
-                cell = self.grid[x][y]
-                cell.add_letter(letter)
-                words.append(cell)  # Agrega la celda actualizada a la lista
-                x += 1
-        return words  # Devuelve la lista de celdas actualizadas
+    def put_words_board(self, word, location, orientation):
+        position_x, position_y = location
+        word_length = len(word)
+
+        if not self.validate_word_place_board(word, location, orientation):
+            return False
+
+        for i in range(word_length):
+            if orientation == "H":
+                self.grid[position_x + i][position_y].add_letter(word[i])
+            elif orientation == "V":
+                self.grid[position_x][position_y + i].add_letter(word[i])
+
+        return True
+    
+    def generate_row_string(self, row, positions, row_index):
+        row_values = []
+
+        for cell in row:
+            if isinstance(cell, Cell):
+                if cell.letter:
+                    row_values.append(cell.letter.letter)
+                else:
+                    if cell.multiplier_type == 'DL':
+                        row_values.append('DL')
+                    elif cell.multiplier_type == 'TL':
+                        row_values.append('TL')
+                    elif cell.multiplier_type == 'DP':
+                        row_values.append('DP')
+                    elif cell.multiplier_type == 'TP':
+                        row_values.append('TP')
+            else:
+                row_values.append('-')
+
+        row_string = ' '.join(row_values)
+
+        return row_string

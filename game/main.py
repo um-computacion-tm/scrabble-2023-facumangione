@@ -1,3 +1,4 @@
+"""
 from io import StringIO
 from game.scrabble import ScrabbleGame
 from game.get_player_count import GetPlayerCount
@@ -63,7 +64,8 @@ class Main:
         except ValueError:
             pass
         return False
-
 if __name__ == '__main__':
     main = Main()
     main.play()
+    
+"""    

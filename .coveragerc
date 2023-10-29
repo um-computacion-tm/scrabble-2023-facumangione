@@ -4,7 +4,7 @@ source =
     test_proyecto
 omit =
     env/*
-    /test
+    */test
     */__init__.py
 [report]
 exclude_lines =
@@ -15,4 +15,4 @@ exclude_lines =
     print
     if _name_ == '__main__':
     def suite
-    _str_         
+    __str__         

@@ -1,30 +1,31 @@
 from game.models import BagTiles
 
+
 class Player:
-    def __init__(self, id:int):
-        self.id = id
-        self.tiles = None
-        self.board = None
-        self.score = 0
+
+    def __init__(self, id=0):
         self.rack = []
+        self.score = 0
+        self.id = id
+  
+    def get_tiles(self,amount,bag=BagTiles):
+        for _ in range(amount):
+            self.rack.append(bag.take(1))
 
-    def get_score(self):
-        return sum(cell.calculate_value() for cell in self.board.played_cells)
+    def exchange_tiles(self,index,bag=BagTiles):
+        tile_to_exchange = self.rack.pop(index)
+        new_tile = bag.take(1)
+        bag.put([tile_to_exchange])
+        self.rack.append(new_tile)
+    
+    def has_letters(self, tiles):
+        rack = set(tile.letter for tile in self.rack) 
+        return set(tile.letter for tile in tiles).issubset(rack)
+    
+    def display_rack(self):
+        return ' '.join(f'[{tile.letter}]' for tile in self.rack)
 
-    def validate_word(self, word):
-        rack_letters = [tile.letter for tile in self.tiles]
-        return all(word.count(letter) <= rack_letters.count(letter) for letter in set(word))
 
-    def has_letters(self, tiles_to_check, bag_tile):
-        # Tomar 7 fichas del "rack" (bag_tile)
-        self.tiles = bag_tile.take(7)
-        # Obtener las letras del "rack"
-        rack_letters = [tile.letter for tile in self.tiles]
-        # Comprobar si todas las letras requeridas están en el "rack"
-        return all(rack_letters.count(tile.letter) >= tiles_to_check.count(tile) for tile in tiles_to_check)
-
-    def pass_turn(self, bag_tile= BagTiles()):
-        # Devuelve las fichas utilizadas al BagTiles
-        bag_tile.return_tiles(self.tiles)
-        # Limpia el rack del jugador
-        self.tiles = []
+   
+    
+    

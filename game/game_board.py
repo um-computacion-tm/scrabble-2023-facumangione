@@ -1,120 +1,126 @@
-from game.models import Tile
 from game.game_cell import Cell
+from game.several import Several
 
 class Board:
-    
     def __init__(self):
-        self.grid = [[Cell() for _ in range(15)] for _ in range(15)]  # Representa el tablero como una matriz de celdas
-        self.initialize_board_multipliers()  # Inicializa los multiplicadores del tablero
-
-    def __iter__(self):
-        return iter(self.grid)
-
-    def initialize_board_multipliers(self):
-        # Establece los multiplicadores de palabras (DP y TP)
-        word_multipliers = [
-            (0, 0), (0, 7), (0, 14),
-            (7, 0), (7, 14),
-            (14, 0), (14, 7), (14, 14)
+         board_multipliers = [
+            ["3W", None, None, "2L", None, None, None, "3W", None, None, None, "2L", None, None, "3W"],
+            [None, "2W", None, None, None, "3L", None, None, None, "3L", None, None, None, "2W", None],  
+            [None, None, "2W", None, None, None, "2L", None, "2L", None, None, None, "2W", None, None], 
+            ["2L", None, None, "2W", None, None, None, "2L", None, None, None, "2W", None, None, "2L"],  
+            [None, None, None, None, "2W", None, None, None, None, None, "2W", None, None, None, None],  
+            [None, "3L", None, None, None, "3L", None, None, None, "3L", None, None, None, "3L", None],  
+            [None, None, "2L", None, None, None, "2L", None, "2L", None, None, None, "2L", None, None],  
+            ["3W", None, None, "2L", None, None, None, "2W", None, None, None, "2L", None, None, "3W"],  
+            [None, None, "2L", None, None, None, "2L", None, "2L", None, None, None, "2L", None, None],  
+            [None, "3L", None, None, None, "3L", None, None, None, "3L", None, None, None, "3L", None],  
+            [None, None, None, None, "2W", None, None, None, None, None, "2W", None, None, None, None],  
+            ["2L", None, None, "2W", None, None, None, "2L", None, None, None, "2W", None, None, "2L"],  
+            [None, None, "2W", None, None, None, "2L", None, "2L", None, None, None, "2W", None, None],  
+            [None, "2W", None, None, None, "3L", None, None, None, "3L", None, None, None, "2W", None],  
+            ["3W", None, None, "2L", None, None, None, "3W", None, None, None, "2L", None, None, "3W"] 
         ]
+         self.grid = [[self.put_multipliers(multiplier) for multiplier in row] for row in board_multipliers ]
 
-        for position in word_multipliers:
-            x, y = position
-            self.grid[x][y].multiplier_type = 'word'
-            self.grid[x][y].multiplier = 2 if (x, y) != (7, 7) else 3  # Casilla central es TP, el resto son DP
-
-        # Establece los multiplicadores de letras (DL y TL)
-        letter_multipliers = [
-            (1, 1), (1, 13),
-            (2, 2), (2, 12),
-            (3, 3), (3, 11),
-            (4, 4), (4, 10),
-            (13, 1), (13, 13),
-            (12, 2), (12, 12),
-            (11, 3), (11, 11),
-            (10, 4), (10, 10)
-        ]
-
-        for position in letter_multipliers:
-            x, y = position
-            self.grid[x][y].multiplier_type = 'letter'
-            self.grid[x][y].multiplier = 2 if (x, y) != (7, 7) else 3  # Casilla central es TL, el resto son DL
-
-
-    def validate_word_inside_board(self, word, location, orientation):
-        position_x, position_y = location  #<--Cambiar nombre de variable para que sea mas facil de entender
-        word_length = len(word)
-
-        if orientation == "H":
-            if position_y + word_length <= 15:
-                return True
-        elif orientation == "V":
-            if position_x + word_length <= 15:
-                return True
-
-        return False
-
-    @property
-    def is_empty(self):
-        # Verificar si el tablero está completamente vacío
-        for row in self.grid:
-            for cell in row:
-                if not cell.is_empty():
-                    return False
-        return True
-
-    def validate_word_place_board(self, word, location, orientation):
-        position_x, position_y = location
-        word_length = len(word)
-
-        if not self.validate_word_inside_board(word, location, orientation):
-            return False
-
-        for i in range(word_length):
-            if orientation == "H":
-                current_tile = self.grid[position_x + i][position_y]
-            elif orientation == "V":
-                current_tile = self.grid[position_x][position_y + i]
-
-            if current_tile.letter is not None:
-                return False
-
-        return True
-
-    def put_words_board(self, word, location, orientation):
-        position_x, position_y = location
-        word_length = len(word)
-
-        if not self.validate_word_place_board(word, location, orientation):
-            return False
-
-        for i in range(word_length):
-            if orientation == "H":
-                self.grid[position_x + i][position_y].add_letter(word[i])
-            elif orientation == "V":
-                self.grid[position_x][position_y + i].add_letter(word[i])
-
-        return True
+    def put_multipliers(self, multiplier):
+        if multiplier is None:
+            return Cell()
+        multiplier_type = multiplier[-1]
+        multiplier_value = int(multiplier[0])
+        if multiplier_type == "W":
+            return Cell(multiplier=multiplier_value, multiplier_type="word")
+        elif multiplier_type == "L":
+            return Cell(multiplier=multiplier_value, multiplier_type="letter")
     
+    def validate_word_inside_board(self,word, location, orientation):
+        column = location[0]
+        row = location[1]
+        word_length = len(word)
+        if orientation == "H":
+            return row + word_length <= 15
+        elif orientation == "V":
+            return column + word_length <= 15
+        
+    def is_empty(self):
+        if self.grid[7][7].letter is None:
+            return True
+        else:
+            return False
+
+    def word_in_the_center(self, word, location, orientation):
+        coordinate = {"H":location[0], "V" : location[1]}
+        central_coordinate = coordinate.get(orientation)
+        if central_coordinate == 7:
+            return self.validate_word_inside_board(word, location, orientation)
+        else:
+            return False
+
+    def check_right_letters(self, tile, letter, list):
+        sev = Several()
+        if sev.compare_tiles_and_letters(tile, letter) == 0:
+            list[0] = 0
+        elif sev.compare_tiles_and_letters(tile, letter) == 1:
+            if list[0] == -1:
+                list[0] = 1
+            list.append(1)
+
+    def check_conditions(self, list, word, location, orientation):
+        return list[0] > 0 and self.validate_word_inside_board(word, location, orientation) is True
+
+    def validate_word_horizontal(self, word, location, orientation):
+        column = location[0]
+        row = location[1]
+        found_letter = [-1]
+        for i in range(len(word)):
+            actual_tile = self.grid[column][row + i].letter
+            self.check_right_letters(actual_tile, word[i], found_letter)
+        return self.check_conditions(found_letter, word, location, orientation)
+
+    def validate_word_vertical(self, word, location, orientation):
+        column = location[0]
+        row = location[1]
+        found_letter = [-1]
+        for i in range(len(word)):
+            actual_tile = self.grid[column + i][row].letter
+            self.check_right_letters(actual_tile, word[i], found_letter)
+        return self.check_conditions(found_letter, word, location, orientation)
+   
+    def validate_word_place_board(self, word, location, orientation):
+        if self.is_empty() is True:
+           return self.word_in_the_center(word, location, orientation)
+        else:
+             if orientation == "H":
+                return self.validate_word_horizontal(word, location, orientation)
+             else:
+                return self.validate_word_vertical(word, location, orientation)
+             
+    def insert(self, word, location, orientation):
+        sev = Several()
+        list_word = sev.board_string_to_tiles(word)
+        column = location[0]
+        row = location[1]
+        i = 0
+        for _ in list_word:
+            self.grid[column][row].letter = list_word[i]
+            if orientation == "H":
+                row += 1
+                i += 1
+            elif orientation == "V":
+                column += 1
+                i += 1
+    
+    def presentation_board(self, positions=None):
+        for row_index, row in enumerate(self.grid):
+            row_str = self.generate_row_string(row, positions, row_index) 
+        print(row_str)  
+
     def generate_row_string(self, row, positions, row_index):
-        row_values = []
-
-        for cell in row:
-            if isinstance(cell, Cell):
-                if cell.letter:
-                    row_values.append(cell.letter.letter)
-                else:
-                    if cell.multiplier_type == 'DL':
-                        row_values.append('DL')
-                    elif cell.multiplier_type == 'TL':
-                        row_values.append('TL')
-                    elif cell.multiplier_type == 'DP':
-                        row_values.append('DP')
-                    elif cell.multiplier_type == 'TP':
-                        row_values.append('TP')
+        sev = Several()
+        row_str = ""
+        for col_index, cell in enumerate(row):
+            if positions is not None and (col_index, row_index) in positions:
+                row_str += sev.format_placed_word_cell(cell)
+                sev.deactivate_cell(cell)
             else:
-                row_values.append('-')
-
-        row_string = ' '.join(row_values)
-
-        return row_string
+                row_str += sev.format_active_cell(cell)
+        return row_str

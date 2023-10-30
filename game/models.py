@@ -40,10 +40,11 @@ class BagTiles:
         random.shuffle(self.tiles)
     
     def take(self, count):
-        tiles = []
-        for _ in range(count):
-            tiles = self.tiles.pop(0)  
-        return tiles
+        if count > len(self.tiles):
+            raise ValueError("No hay suficientes fichas en la bolsa")
+        taken_tiles = self.tiles[:count]
+        self.tiles = self.tiles[count:]
+        return taken_tiles
 
     def put(self, tiles):
         self.tiles.extend(tiles)
@@ -58,3 +59,22 @@ class BagTiles:
                 count = min(amount, 100 - len(total))
             total.extend(new_tiles[:count])    
         self.tiles.extend(total)
+
+        
+        
+        
+        
+                
+    
+
+
+
+
+
+
+
+
+    
+
+     
+  

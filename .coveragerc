@@ -1,10 +1,10 @@
 [run]
 source =
     game
-    test_proyecto
+    tests
 omit =
     env/*
-    /test
+    */test*
     */__init__.py
 [report]
 exclude_lines =
@@ -13,6 +13,6 @@ exclude_lines =
     def test_
     return raw_input
     print
-    if _name_ == '__main__':
+    if __name__ == '__main__':
     def suite
-    _str_         
+    __str__ 

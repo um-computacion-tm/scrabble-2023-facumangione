@@ -5,56 +5,105 @@ by Mangione Facundo
 
 ## [Unreleased]
 
-## [0.0.16] - 2023 - 10 - 4
+## [0.2.4] - 2023 - 10 -30
+
+### Added
+
+changes in cofig
+
+## [0.2.3] - 2023 - 10 - 29
+### Added
+
+changes to strat game 2.0
+
+## [0.2.4] - 2023 - 10 - 23
+
+### Added
+
+new board
+
+## [0.2.3] - 2023 - 10 - 22
+
+### Added
+
+main fix attempt
+
+## [0.2.2] - 2023 - 10 - 17
+
+### Added
+
+changes to start game
+
+## [0.2.1] - 2023 - 10 - 16
+
+### Added
+
+Fix main and game.scrabble
+
+## [0.2.0] - 2023 - 10 - 11
+
+### Added
+
+changes and add code in dictionary, main, scrabble, get_player_count and tests
+
+
+## [0.1.9] - 2023 - 10 - 9
+
+### Added
+
+try add dictionary
+
+
+## [0.1.8] - 2023 - 10 - 4
 
 ### Added
 
 test pygame for a bord
 
-## [0.0.16] - 2023 - 10 - 3
+## [0.1.7] - 2023 - 10 - 3
 
 ### Added 
 
 Trying different desing of board
 change in test pass_turn
 
-## [0.0.15] - 2023 - 10 - 2
+## [0.1.6] - 2023 - 10 - 2
 
 ### Added
 
 Changes in main
 
-## [0.0.14] - 2023 - 10 - 1
+## [0.1.5] - 2023 - 10 - 1
 
 ### Added
 
 Add test pass_turn
 
-## [0.0.13] - 2023 - 09 - 30
+## [0.1.4] - 2023 - 09 - 30
 
 ### Added
 
 Add code pass_turn
 
-## [0.0.12] - 2023 - 09 - 28
+## [0.1.3] - 2023 - 09 - 28
 
 ### Added
 
 Add code in game_player
 
-## [0.0.11] - 2023 - 09 - 27
+## [0.1.2] - 2023 - 09 - 27
 
 ### Added
 
 New test in test_player
 
-## [0.0.10] - 2023 - 09 - 26
+## [0.1.1] - 2023 - 09 - 26
 
 ### Added
 
 Fix coverage 
 
-## [0.0.9] - 2023 - 09 - 25
+## [0.1.0] - 2023 - 09 - 25
 
 ### Added
 

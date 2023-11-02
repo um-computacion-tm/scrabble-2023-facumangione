@@ -244,5 +244,3 @@ if __name__ == "__main__":
     main = Main()
     main.play()
     main.play_game()
-
-                

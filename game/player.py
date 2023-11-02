@@ -1,7 +1,7 @@
 lectern_size = 7
 
 class Player:
-    def __init__(self, name = "", number = 0, points = 0):
+    def __init__(self, name = "", number = 0, points = 0, bag_tiles = None):
         self.points = points
         self.name = name
         self.number = number 

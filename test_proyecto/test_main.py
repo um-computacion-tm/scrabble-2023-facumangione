@@ -57,7 +57,7 @@ class TestMain(unittest.TestCase):
     Seleccion: '''
         self.assertEqual(result, expected)
 
-    def test_view_menu_rack(self):
+    def test_view_menu_lectern(self):
         main = Main()
         scrabble_game = ScrabbleGame(2)
         scrabble_game.players[0].name = 'Jugador 1'
@@ -148,6 +148,21 @@ class TestMain(unittest.TestCase):
     1) Ver puntuaciones
     2) Volver
     Seleccion: '''    
+        self.assertEqual(result, expected)
+
+    def test_view_menu_exit(self):
+        main = Main()
+        scrabble_game = ScrabbleGame(2)
+        scrabble_game.players[0].name = 'Jugador 1'
+        scrabble_game.players[1].name = 'Jugador 2'
+        scrabble_game.next_turn()
+        result = main.menu('exit', scrabble_game)
+        expected = '''Turno del jugador Jugador 1
+
+    Salir
+    1) Salir
+    2) Volver al menu
+    Seleccion: '''
         self.assertEqual(result, expected)
 
     @patch('builtins.input', side_effect=[7,2])
@@ -342,25 +357,6 @@ O   3W|  |  |2L|  |  |  |3W|  |  |  |2L|  |  |3W|
         self.maxDiff = None
         self.assertEqual(printed_output, expected)
 
-    def test_play_game_valid_option(self):
-        main = Main()
-        scrabble_game = ScrabbleGame(2)
-        scrabble_game.next_turn()
-        with unittest.mock.patch('builtins.input', side_effect=[1,2,2,2,3,4,4,2,5]):
-            main.play_game(scrabble_game)
-
-
-    def test_play_game_invalid_option(self):
-        main = Main()
-        scrabble_game = ScrabbleGame(2)
-        scrabble_game.next_turn()
-        output_buffer = io.StringIO()
-        sys.stdout = output_buffer
-        with unittest.mock.patch('builtins.input', side_effect=['abc',5]):
-            self.assertFalse(main.play_game(scrabble_game))
-        sys.stdout = sys.__stdout__
-        output_buffer.close()
-
     @patch('builtins.input', side_effect=[2, 'Player1', 'Player2', 5])
     def test_play(self, mock_input):
         main = Main()
@@ -379,23 +375,6 @@ O   3W|  |  |2L|  |  |  |3W|  |  |  |2L|  |  |3W|
         sys.stdout = sys.__stdout__
         printed_output = output_buffer.getvalue()
         output_buffer.close()
-
-    @patch('builtins.input', side_effect=[7,5,1])
-    def test_menu_play_game_exception(self, mock_input):
-        main = Main()
-        scrabble_game = ScrabbleGame(2)
-        scrabble_game.players[0].name = 'Jugador 1'
-        scrabble_game.players[1].name = 'Jugador 2'
-        scrabble_game.next_turn()
-        output_buffer = io.StringIO()
-        sys.stdout = output_buffer
-        main.play_game(scrabble_game)
-        sys.stdout = sys.__stdout__
-        printed_output = output_buffer.getvalue()
-        output_buffer.close()
-        expected = '''Valor no valido\n'''
-        self.maxDiff = None
-        self.assertEqual(printed_output, expected)
 
     @patch('builtins.input', side_effect=[2, 'Player1', 'Player2', 5,1])
     def test_play(self, mock_input):

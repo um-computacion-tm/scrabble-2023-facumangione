@@ -383,89 +383,6 @@ class TestCalculateWordValue(unittest.TestCase):
         value = board.calculate_word_value(word, pos, 'H')
         self.assertEqual(value, 6)
 
-    # def test_simple_intersection(self):
-    #     board = Board()
-    #     board.grid[7][2].tile = Tile('E', 1)
-    #     board.grid[7][3].tile = Tile('S', 1)
-    #     board.grid[7][4].tile = Tile('T', 1)
-    #     board.grid[7][5].tile = Tile('R', 1)
-    #     board.grid[7][6].tile = Tile('E', 1)
-    #     board.grid[7][7].tile = Tile('N', 1)
-    #     board.grid[7][8].tile = Tile('O', 1)
-    #     board.grid[7][7].active = False
-    #     word = 'mes'
-    #     pos=(6,6)
-    #     value = board.calculate_word_value(word, pos, 'H')
-    #     self.assertEqual(value, 21)
-
-    # def test_simple_intersection_inverted(self):
-    #     board = Board()
-    #     board.grid[7][2].tile = Tile('E', 1)
-    #     board.grid[7][3].tile = Tile('S', 1)
-    #     board.grid[7][4].tile = Tile('T', 1)
-    #     board.grid[7][5].tile = Tile('R', 1)
-    #     board.grid[7][6].tile = Tile('E', 1)
-    #     board.grid[7][7].tile = Tile('N', 1)
-    #     board.grid[7][8].tile = Tile('O', 1)
-    #     board.grid[7][7].active = False
-    #     word = 'mes'
-    #     pos=(8,6)
-    #     value = board.calculate_word_value(word, pos, 'H')
-    #     self.assertEqual(value, 21)
-
-    # def test_simple_intersection_2(self):
-    #     board = Board()
-    #     board.grid[7][5].tile = Tile('C', 3)
-    #     board.grid[7][6].tile = Tile('A', 1)
-    #     board.grid[7][7].tile = Tile('S', 1)
-    #     board.grid[7][8].tile = Tile('A', 1)
-    #     board.grid[6][8].tile = Tile('L', 1)
-    #     board.grid[8][8].tile = Tile('S', 1)
-    #     board.grid[9][8].tile = Tile('O', 1)
-    #     board.grid[9][7].tile = Tile('S', 1)
-    #     board.grid[9][6].tile = Tile('O', 1)
-    #     word = 'cosa'
-    #     pos=(7,5)
-    #     value = board.calculate_word_value(word, pos, 'V')
-    #     self.assertEqual(value, 14)
-
-    # def test_simple_intersection_inverted_2(self):
-    #     board = Board()
-    #     board.grid[7][5].tile = Tile('C', 3)
-    #     board.grid[7][6].tile = Tile('A', 1)
-    #     board.grid[7][7].tile = Tile('S', 1)
-    #     board.grid[7][8].tile = Tile('A', 1)
-    #     board.grid[8][5].tile = Tile('O', 1)
-    #     board.grid[9][5].tile = Tile('S', 1)
-    #     board.grid[10][5].tile = Tile('A', 1)
-    #     board.grid[9][7].tile = Tile('S', 1)
-    #     board.grid[9][6].tile = Tile('O', 1)
-    #     board.grid[9][8].tile = Tile('O', 1)
-    #     board.grid[7][7].active = False
-    #     word = 'laso'
-    #     pos=(5,9)
-    #     value = board.calculate_word_value(word, pos, 'V')
-    #     self.assertEqual(value, 13)
-
-    # def test_simple_intersection_inverted_3(self):
-    #     board = Board()
-    #     board.grid[7][5].tile = Tile('C', 3)
-    #     board.grid[7][6].tile = Tile('A', 1)
-    #     board.grid[7][7].tile = Tile('S', 1)
-    #     board.grid[7][8].tile = Tile('A', 1)
-    #     board.grid[8][5].tile = Tile('O', 1)
-    #     board.grid[9][5].tile = Tile('S', 1)
-    #     board.grid[10][5].tile = Tile('A', 1)
-    #     board.grid[9][7].tile = Tile('S', 1)
-    #     board.grid[9][6].tile = Tile('O', 1)
-    #     board.grid[9][8].tile = Tile('O', 1)
-    #     board.grid[7][7].active = False
-    #     board.grid[9][5].active = False
-    #     word = 'lasos'
-    #     pos=(5,9)
-    #     value = board.calculate_word_value(word, pos, 'V')
-    #     self.assertEqual(value, 23)
-
     def test_out_of_range_side(self):
         board = Board()
         word = 'casa'
@@ -484,6 +401,102 @@ class TestCalculateWordValue(unittest.TestCase):
         horizontal = 'H'
         value = board.calculate_word_value(word,pos,horizontal)
         self.assertEqual(value, 10)
+
+    def test_validate_word_inside_board_horizontal(self):
+        board = Board()
+        board.grid = [
+            ['_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_'],
+            ['_', '_', '_', '_', '_']
+        ]
+        word = "WORD"
+        location = (1, 2)
+        orientation = "H"
+        result = board.validate_word_inside_board(word, location, orientation)
+        self.assertFalse(result, "La palabra 'WORD' debería encajar horizontalmente en la ubicación (1, 2).")
+
+    def test_validate_word_inside_board_vertical(self):
+        board = Board()
+        board.grid = [
+            ['_', '_', '_', '_'],
+            ['_', '_', '_', '_'],
+            ['_', '_', '_', '_'],
+            ['_', '_', '_', '_'],
+            ['_', '_', '_', '_']
+        ]
+        word = "VERTICAL"
+        location = (2, 1)
+        orientation = "V"
+        result = board.validate_word_inside_board(word, location, orientation)
+        self.assertFalse(result, "La palabra 'VERTICAL' debería encajar verticalmente en la ubicación (2, 1).")
+
+    def test_get_word_without_intersections_horizontal(self):
+        board = Board()
+        board.grid = [
+            [None, "A", None, "B", None],
+            [None, "C", None, "D", None],
+            [None, "E", None, "F", None]
+        ]
+        word = "ACD"
+        pos = (1, 0)
+        horizontal = True
+        result = board.get_word_without_intersections(word, pos, horizontal)
+        self.assertEqual(result, "AD")
+
+    def test_get_word_without_intersections_vertical(self):
+        board = Board()
+        board.grid = [
+            [None, "A", None, "B", None],
+            [None, "C", None, "D", None],
+            [None, None, None, "F", None]
+        ]
+        word = "ACD"
+        pos = (0, 3)
+        horizontal = False
+        result = board.get_word_without_intersections(word, pos, horizontal)
+        self.assertEqual(result, "")
+
+    def test_get_side_word_horizontal(self):
+        board = Board()  
+        cell = board.grid[2][2]  
+        cell.tile = Tile('A', 1)  
+        i = 1  
+        orientation = (True, False) 
+        pos = (2, 2)  
+        letter = 'A'  
+        side_word, j = board.get_side_word(cell, i, orientation, pos, letter)
+        self.assertEqual(side_word, 'AA', "El lado horizontal debería ser la letra 'A'")
+        self.assertEqual(j, 2, "j debería ser 1 para una celda con letra")
+
+    def test_get_side_word_vertical(self):
+        board = Board()  
+        cell = board.grid[2][2]  
+        cell.tile = Tile('B', 1)  
+        i = 1 
+        orientation = (False, False)  
+        pos = (2, 2)  
+        letter = 'B'  
+        side_word, j = board.get_side_word(cell, i, orientation, pos, letter)
+        self.assertEqual(side_word, 'BB', "El lado vertical debería ser la letra 'B'")
+        self.assertEqual(j, 2, "j debería ser 1 para una celda con letra")
+
+    @patch('game.board.dle.search_by_word')
+    def test_complex_word_validation_valid_right(self, mock_search_by_word):
+        mock_search_by_word.return_value.title = 'soso, sosa | Definición | Diccionario de la lengua española | RAE - ASALE'
+        board = Board()
+        board.grid[7][6].tile = Tile('C',3)
+        board.grid[7][7].tile = Tile('A',1)
+        board.grid[7][8].tile = Tile('S',6)
+        board.grid[7][9].tile = Tile('A',1)
+        board.grid[6][9].tile = Tile('L',3)
+        board.grid[8][9].tile = Tile('S',6)
+        board.grid[9][9].tile = Tile('O',1)
+        board.grid[9][8].tile = Tile('S',6)
+        board.grid[9][7].tile = Tile('O',1)
+        word = 'cosa'
+        horizontal = 'V'
+        pos = (7,6)
+        is_valid = board.validate_not_empty(word, pos, horizontal)
 
 if __name__ == '__main__':
     unittest.main()

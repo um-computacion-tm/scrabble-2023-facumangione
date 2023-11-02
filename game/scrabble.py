@@ -40,7 +40,7 @@ class ScrabbleGame:
             self.current_player = self.players[index]
          
     def end_game(self):
-        if len(self.bag_tiles.tiles) == 0:
+        if self.bag_tiles.tiles == []:
             for player in self.players:
                 if player.tiles == []:
                     self.game_over = True
@@ -58,4 +58,4 @@ class ScrabbleGame:
         scores = ''
         for player in self.players:
             scores += player.name + ': ' + str  (player.points) + '\n'
-        return scores 
+        return scores

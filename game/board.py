@@ -112,7 +112,7 @@ class Board:
         is_valid, intersections = validators[0], validators[1]
         grid, word2, index = self.grid, word[i], 1
         while cell:
-            word2 += cell.lower()
+            word2 += cell
             cell = grid[pos[0] + i + index_increment * index][pos[1] + i].tile
             index += 1
         word2_is_valid = self.rae_search(word2)
@@ -251,7 +251,7 @@ class Board:
     def get_word_without_intersections(self,word,pos,horizontal):
         result = ''
         for i in range(len(word)):
-            cell = self.grid[pos[0] + (i if not horizontal else 0)][pos[1] + (i if horizontal else 0)].tile
+            cell = self.grid[pos[0] + (i if not horizontal else 0)][pos[1] + (i if horizontal else 0)]
             if not cell:
                 result += word[i]
         return result

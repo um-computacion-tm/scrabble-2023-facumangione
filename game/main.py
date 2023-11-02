@@ -83,7 +83,7 @@ class Main():
                 elif option == 4:
                     self.menu_scores(scrabble_game)
                 elif option == 5:
-                    scrabble_game.game_over = True
+                    self.menu_salir(scrabble_game)
                     break
                 else:
                     raise ValueError
@@ -244,3 +244,5 @@ if __name__ == "__main__":
     main = Main()
     main.play()
     main.play_game()
+
+                

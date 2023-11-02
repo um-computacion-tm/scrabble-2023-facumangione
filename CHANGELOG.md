@@ -5,6 +5,10 @@ by Mangione Facundo
 
 ## [Unreleased]
 
+## [0.2.5] - 2023 - 11 - 01
+
+change in code and Dockerfile
+
 ## [0.2.4] - 2023 - 10 -30
 
 ### Added
